@@ -27,7 +27,7 @@ public class ImageLoader {
      * @param url       image url
      * @param imageView view to set image too.
      */
-    public void load(String url, ImageView imageView) {
+    public void load(final String url, final ImageView imageView) {
         if (TextUtils.isEmpty(url)) {
             throw new InvalidParameterException("URL is empty!");
         }
@@ -37,19 +37,19 @@ public class ImageLoader {
 
         try {
             setImageView(imageView, convertToBitmap(loadImageData(url)));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Log.e(TAG, e.getMessage());
         }
     }
 
-    private static byte[] loadImageData(String url) throws IOException {
+    private static byte[] loadImageData(final String url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         InputStream inputStream = null;
         try {
             try {
                 // Read data from workstation
                 inputStream = connection.getInputStream();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 // Read the error from the workstation
                 inputStream = connection.getErrorStream();
             }
@@ -67,11 +67,11 @@ public class ImageLoader {
         }
     }
 
-    private static Bitmap convertToBitmap(byte[] data) {
+    private static Bitmap convertToBitmap(final byte[] data) {
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
-    private static void setImageView(ImageView imageView, Bitmap bitmap) {
+    private static void setImageView(final ImageView imageView, final Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
     }
 }

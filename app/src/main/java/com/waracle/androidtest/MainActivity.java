@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             "raw/8dd19a88f9b8d24c23d9960f3300d0c917a4f07c/cake.json";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
@@ -45,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -83,15 +83,15 @@ public class MainActivity extends AppCompatActivity {
         public PlaceholderFragment() { /**/ }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                                 final Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             mListView = (ListView) rootView.findViewById(R.id.list);
             return rootView;
         }
 
         @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
+        public void onActivityCreated(final Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
 
             // Create and set the list adapter.
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
          * Returns the charset specified in the Content-Type of this header,
          * or the HTTP default (ISO-8859-1) if none can be found.
          */
-        public static String parseCharset(String contentType) {
+        public static String parseCharset(final String contentType) {
             if (contentType != null) {
                 String[] params = contentType.split(",");
                 for (int i = 1; i < params.length; i++) {
@@ -175,18 +175,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public Object getItem(int position) {
+            public Object getItem(final int position) {
                 return mItems.get(position);
             }
 
             @Override
-            public long getItemId(int position) {
+            public long getItemId(final int position) {
                 return 0;
             }
 
             @SuppressLint("ViewHolder")
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(final int position, final View convertView, final ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View root = inflater.inflate(R.layout.list_item_layout, parent, false);
                 if (root == null) {
