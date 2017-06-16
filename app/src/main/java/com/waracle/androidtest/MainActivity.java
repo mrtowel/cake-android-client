@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Also, Do you trust any utils thrown your way????
 
-                byte[] bytes = StreamUtils.readUnknownFully(in);
+                byte[] bytes = StreamUtils.read(in);
 
                 // Read in charset of HTTP content.
                 String charset = parseCharset(urlConnection.getRequestProperty("Content-Type"));

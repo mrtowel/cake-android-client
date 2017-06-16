@@ -21,7 +21,7 @@ public class StreamUtils {
 
     // Data can be buffered while reading an InputStream
     // No point adding bytes to List and then converting List to array
-    public static byte[] readUnknownFully(final InputStream stream) throws IOException {
+    public static byte[] read(final InputStream stream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int count;
         byte[] tmpData = new byte[4096];
