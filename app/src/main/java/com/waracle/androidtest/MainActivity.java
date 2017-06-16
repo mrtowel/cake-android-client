@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -99,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
             // Load data from net.
             try {
                 JSONArray array = loadData();
-                mAdapter.setItems(array);
+                List<Item> items = Item.fromJsonArray(array);
+                mAdapter.addItems(items);
             } catch (IOException | JSONException e) {
                 Log.e(TAG, e.getMessage());
             }
@@ -153,32 +156,27 @@ public class MainActivity extends AppCompatActivity {
 
         private class MyAdapter extends BaseAdapter {
 
-            // Can you think of a better way to represent these items???
-            private JSONArray mItems;
+            private List<Item> mItems = new ArrayList<>();
             private ImageLoader mImageLoader;
 
-            public MyAdapter() {
-                this(new JSONArray());
+            MyAdapter() {
             }
 
-            public MyAdapter(JSONArray items) {
-                mItems = items;
+            public MyAdapter(final List<Item> items) {
+                if (items != null) {
+                    mItems = items;
+                }
                 mImageLoader = new ImageLoader();
             }
 
             @Override
             public int getCount() {
-                return mItems.length();
+                return mItems.size();
             }
 
             @Override
             public Object getItem(int position) {
-                try {
-                    return mItems.getJSONObject(position);
-                } catch (JSONException e) {
-                    Log.e("", e.getMessage());
-                }
-                return null;
+                return mItems.get(position);
             }
 
             @Override
@@ -191,25 +189,26 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View root = inflater.inflate(R.layout.list_item_layout, parent, false);
-                if (root != null) {
-                    TextView title = (TextView) root.findViewById(R.id.title);
-                    TextView desc = (TextView) root.findViewById(R.id.desc);
-                    ImageView image = (ImageView) root.findViewById(R.id.image);
-                    try {
-                        JSONObject object = (JSONObject) getItem(position);
-                        title.setText(object.getString("title"));
-                        desc.setText(object.getString("desc"));
-                        mImageLoader.load(object.getString("image"), image);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                if (root == null) {
+                    return null;
                 }
+
+                TextView title = (TextView) root.findViewById(R.id.title);
+                TextView desc = (TextView) root.findViewById(R.id.desc);
+                ImageView image = (ImageView) root.findViewById(R.id.image);
+
+                Item object = (Item) getItem(position);
+                title.setText(object.getTitle());
+                desc.setText(object.getDescription());
+                mImageLoader.load(object.getImage(), image);
 
                 return root;
             }
 
-            public void setItems(JSONArray items) {
-                mItems = items;
+            public void addItems(final List<Item> items) {
+                if (items != null) {
+                    mItems.addAll(items);
+                }
             }
         }
     }
