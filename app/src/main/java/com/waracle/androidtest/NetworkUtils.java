@@ -13,7 +13,7 @@ import java.util.List;
 
 
 /**
- * Utils for manipulation of network response data. 
+ * Utils for manipulation of network response data.
  */
 public class NetworkUtils {
 

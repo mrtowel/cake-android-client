@@ -8,6 +8,7 @@ import com.waracle.androidtest.NetworkResponse;
 import com.waracle.androidtest.StreamUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,6 +45,7 @@ public final class LoadTask extends AsyncTask<String, Void, NetworkResponse> {
         }
 
         HttpURLConnection urlConnection = null;
+        InputStream stream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -68,7 +70,8 @@ public final class LoadTask extends AsyncTask<String, Void, NetworkResponse> {
 
             // Parse response body if status 200
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                readBytes = StreamUtils.read(urlConnection.getInputStream());
+                stream = urlConnection.getInputStream();
+                readBytes = StreamUtils.read(stream);
                 response = new NetworkResponse(
                         responseCode, readBytes, urlConnection.getContentType());
             }
@@ -79,6 +82,7 @@ public final class LoadTask extends AsyncTask<String, Void, NetworkResponse> {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
+            StreamUtils.close(stream);
         }
 
         return response;
