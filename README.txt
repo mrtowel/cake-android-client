@@ -1,5 +1,14 @@
 Coding Test (fictitious)
 
+Third party libraries that would be useful in this project:
+
+* Picasso
+* Retrofit
+* RxJava2/RxAndroid2
+* Moshi (because it uses Okio, same as Picasso and Retrofit)
+* RecyclerView
+
+Also in further development MVP pattern could be used. At this point it would be nice to convert codebase to Kotlin.
 
 ***
 NOTE: PLEASE DO NOT USE THIRD PARTY LIBRARIES. However, feel free to state which third party libraries you might have used.
