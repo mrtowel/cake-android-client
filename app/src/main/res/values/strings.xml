@@ -3,4 +3,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_refresh">Refresh</string>
     <string name="endpoint_url">https://gist.githubusercontent.com/hart88/198f29ec5114a3ec3460/raw/8dd19a88f9b8d24c23d9960f3300d0c917a4f07c/cake.json</string>
+    <string name="cake_image_content_description">Cake image</string>
 </resources>

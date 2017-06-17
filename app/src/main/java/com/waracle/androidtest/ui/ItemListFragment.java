@@ -49,7 +49,7 @@ public class ItemListFragment extends ListFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_item_list, container, false);
         mListView = (ListView) rootView.findViewById(android.R.id.list);
         mItemAdapter = new ItemAdapter();
         mListView.setAdapter(mItemAdapter);
