@@ -11,22 +11,20 @@ import android.view.MenuItem;
  */
 public final class MainActivity extends AppCompatActivity {
 
+    private static final String ITEM_LIST_FRAGMENT_TAG = "ItemListFragment";
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ItemListFragment())
-                    .commit();
-        }
 
         HttpCache.install(this.getApplicationContext());
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+        if (getSupportFragmentManager().findFragmentByTag(ITEM_LIST_FRAGMENT_TAG) == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new ItemListFragment(), ITEM_LIST_FRAGMENT_TAG)
+                    .commit();
+        }
     }
 
     @Override
