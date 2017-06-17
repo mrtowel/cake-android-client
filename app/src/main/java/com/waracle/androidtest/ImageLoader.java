@@ -2,76 +2,78 @@ package com.waracle.androidtest;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v4.util.LruCache;
+import android.support.v4.util.SparseArrayCompat;
 import android.widget.ImageView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.InvalidParameterException;
+import com.waracle.androidtest.net.LoadTask;
 
-/**
- * Created by Riad on 20/05/2015.
- */
 public class ImageLoader {
 
-    private static final String TAG = ImageLoader.class.getSimpleName();
+    private LruCache<String, Bitmap> mMemoryCache;
+    private SparseArrayCompat<LoadTask> mLoadTasks;
 
-    public ImageLoader() { /**/ }
-
-    /**
-     * Simple function for loading a bitmap image from the web
-     *
-     * @param url       image url
-     * @param imageView view to set image too.
-     */
-    public void load(final String url, final ImageView imageView) {
-        if (TextUtils.isEmpty(url)) {
-            throw new InvalidParameterException("URL is empty!");
-        }
-
-        // Can you think of a way to improve loading of bitmaps
-        // that have already been loaded previously??
-
-        try {
-            setImageView(imageView, convertToBitmap(loadImageData(url)));
-        } catch (final IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
-    }
-
-    private static byte[] loadImageData(final String url) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        InputStream inputStream = null;
-        try {
-            try {
-                // Read data from workstation
-                inputStream = connection.getInputStream();
-            } catch (final IOException e) {
-                // Read the error from the workstation
-                inputStream = connection.getErrorStream();
+    public ImageLoader() {
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 8;
+        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(final String key, final Bitmap bitmap) {
+                return bitmap.getRowBytes() * bitmap.getHeight() / 1024;
             }
+        };
 
-            // Can you think of a way to make the entire
-            // HTTP more efficient using HTTP headers??
-
-            return StreamUtils.read(inputStream);
-        } finally {
-            // Close the input stream if it exists.
-            StreamUtils.close(inputStream);
-
-            // Disconnect the connection
-            connection.disconnect();
-        }
+        mLoadTasks = new SparseArrayCompat<>();
     }
 
     private static Bitmap convertToBitmap(final byte[] data) {
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
-    private static void setImageView(final ImageView imageView, final Bitmap bitmap) {
-        imageView.setImageBitmap(bitmap);
+    public void loadImage(final String url, final ImageView imageView,
+                          final ItemListFragment.ItemAdapter.ViewHolder holder,
+                          final int position) {
+        Bitmap bitmapFromMemCache = getBitmapFromMemCache(url);
+        if (bitmapFromMemCache != null) {
+            imageView.setImageBitmap(bitmapFromMemCache);
+            return;
+        }
+
+        if (holder.position != -1 && holder.position != position) {
+            LoadTask loadTask = mLoadTasks.get(position);
+            if (loadTask != null && !loadTask.isCancelled()) {
+                loadTask.cancel(true);
+                return;
+            }
+        }
+
+        LoadTask loadTask = new LoadTask(new LoadTask.Callback() {
+            @Override
+            public void onLoaded(final NetworkResponse response) {
+                Bitmap bitmap = convertToBitmap(response.getBody());
+                addBitmapToMemoryCache(url, bitmap);
+
+                if (holder.position == position) {
+                    imageView.setImageBitmap(bitmap);
+                }
+            }
+        });
+        mLoadTasks.put(position, loadTask);
+        loadTask.execute(url);
     }
+
+    public void addBitmapToMemoryCache(final String key, final Bitmap bitmap) {
+        if (key == null || bitmap == null) {
+            return;
+        }
+
+        if (getBitmapFromMemCache(key) == null) {
+            mMemoryCache.put(key, bitmap);
+        }
+    }
+
+    public Bitmap getBitmapFromMemCache(final String key) {
+        return mMemoryCache.get(key);
+    }
+
 }
