@@ -11,6 +11,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Utils for manipulation of network response data. 
+ */
 public class NetworkUtils {
 
     private static final String ENCODING_UTF_8 = "UTF-8";

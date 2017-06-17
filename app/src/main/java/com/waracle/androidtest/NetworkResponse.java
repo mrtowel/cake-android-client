@@ -1,6 +1,9 @@
 package com.waracle.androidtest;
 
 
+/**
+ * Represents network response.
+ */
 public final class NetworkResponse {
 
     private int responseCode;

@@ -7,8 +7,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 /**
- * Created by Riad on 20/05/2015.
+ * Utils for manipulation of streams.
  */
 public class StreamUtils {
 

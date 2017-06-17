@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+/**
+ * Launcher activity.
+ */
 public final class MainActivity extends AppCompatActivity {
 
     @Override
