@@ -3,18 +3,23 @@ package com.waracle.androidtest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
-import android.support.v4.util.SparseArrayCompat;
 import android.widget.ImageView;
 
 import com.waracle.androidtest.net.LoadTask;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Loads images from internet or cache if available.
+ *
+ * @see LruCache
+ * @see LoadTask
  */
 public final class ImageLoader {
 
     private LruCache<String, Bitmap> mMemoryCache;
-    private SparseArrayCompat<LoadTask> mLoadTasks;
+    private Map<String, LoadTask> mLoadTasks1;
 
     public ImageLoader() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -26,7 +31,7 @@ public final class ImageLoader {
             }
         };
 
-        mLoadTasks = new SparseArrayCompat<>();
+        mLoadTasks1 = new HashMap<>();
     }
 
     private static Bitmap convertToBitmap(final byte[] data) {
@@ -45,10 +50,10 @@ public final class ImageLoader {
 
         // Cancel load request if view was recycled and remove from loading list
         if (holder.position != -1 && holder.position != position) {
-            LoadTask loadTask = mLoadTasks.get(position);
-            if (loadTask != null && !loadTask.isCancelled()) {
-                loadTask.cancel(true);
-                mLoadTasks.remove(position);
+            LoadTask loadTask1 = mLoadTasks1.get(url);
+            if (loadTask1 != null && !loadTask1.isCancelled()) {
+                loadTask1.cancel(true);
+                mLoadTasks1.remove(url);
                 return;
             }
         }
@@ -63,10 +68,10 @@ public final class ImageLoader {
                 if (holder.position == position) {
                     imageView.setImageBitmap(bitmap);
                 }
-                mLoadTasks.remove(position);
+                mLoadTasks1.remove(url);
             }
         });
-        mLoadTasks.put(position, loadTask);
+        mLoadTasks1.put(url, loadTask);
         loadTask.execute(url);
     }
 
