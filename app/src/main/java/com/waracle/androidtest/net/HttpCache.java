@@ -15,6 +15,9 @@ public class HttpCache {
 
     private static final int CACHE_SIZE = 10 * 1024 * 1024;
 
+    private HttpCache() {
+    }
+
     public static void install(final Context context) {
         try {
             File httpCacheDir = new File(context.getCacheDir(), "http");

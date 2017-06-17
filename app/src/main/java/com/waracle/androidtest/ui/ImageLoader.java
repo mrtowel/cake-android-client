@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
-import com.waracle.androidtest.ui.ItemListFragment;
 import com.waracle.androidtest.net.LoadTask;
 import com.waracle.androidtest.net.NetworkResponse;
 
@@ -18,12 +17,12 @@ import java.util.Map;
  * @see LruCache
  * @see LoadTask
  */
-public final class ImageLoader {
+final class ImageLoader {
 
     private LruCache<String, Bitmap> mMemoryCache;
     private Map<String, LoadTask> mLoadTasks1;
 
-    public ImageLoader() {
+    ImageLoader() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
@@ -40,7 +39,7 @@ public final class ImageLoader {
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
-    public void loadImage(final String url, final ImageView imageView,
+    void loadImage(final String url, final ImageView imageView,
                           final ItemListFragment.ItemAdapter.ViewHolder holder,
                           final int position) {
         // Load from cache
@@ -77,7 +76,7 @@ public final class ImageLoader {
         loadTask.execute(url);
     }
 
-    public void addBitmapToMemoryCache(final String key, final Bitmap bitmap) {
+    private void addBitmapToMemoryCache(final String key, final Bitmap bitmap) {
         if (key == null || bitmap == null) {
             return;
         }
@@ -87,7 +86,7 @@ public final class ImageLoader {
         }
     }
 
-    public Bitmap getBitmapFromMemCache(final String key) {
+    private Bitmap getBitmapFromMemCache(final String key) {
         return mMemoryCache.get(key);
     }
 
