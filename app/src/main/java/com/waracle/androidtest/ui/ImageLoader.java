@@ -3,6 +3,7 @@ package com.waracle.androidtest.ui;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.waracle.androidtest.net.LoadTask;
@@ -63,6 +64,9 @@ final class ImageLoader {
         LoadTask loadTask = new LoadTask(new LoadTask.Callback() {
             @Override
             public void onLoaded(final NetworkResponse response) {
+                if (response == null) {
+                    return;
+                }
                 Bitmap bitmap = convertToBitmap(response.getBody());
                 addBitmapToMemoryCache(url, bitmap);
 

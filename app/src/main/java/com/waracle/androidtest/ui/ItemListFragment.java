@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.waracle.androidtest.R;
 import com.waracle.androidtest.data.Item;
@@ -68,6 +69,10 @@ public class ItemListFragment extends ListFragment {
         LoadTask.Callback callback = new LoadTask.Callback() {
             @Override
             public void onLoaded(final NetworkResponse response) {
+                if (response == null) {
+                    Toast.makeText(getActivity(), "Request failed", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 items = NetworkUtils.parseResponseData(response);
                 displayItems();
             }
