@@ -1,4 +1,4 @@
-package com.waracle.androidtest;
+package com.waracle.androidtest.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +11,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.waracle.androidtest.R;
+import com.waracle.androidtest.data.Item;
 import com.waracle.androidtest.net.LoadTask;
+import com.waracle.androidtest.net.NetworkResponse;
+import com.waracle.androidtest.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;

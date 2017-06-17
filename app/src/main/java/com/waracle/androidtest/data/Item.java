@@ -1,4 +1,4 @@
-package com.waracle.androidtest;
+package com.waracle.androidtest.data;
 
 import android.util.Log;
 

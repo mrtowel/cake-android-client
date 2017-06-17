@@ -1,4 +1,4 @@
-package com.waracle.androidtest;
+package com.waracle.androidtest.net;
 
 
 /**
@@ -10,7 +10,7 @@ public final class NetworkResponse {
     private byte[] body;
     private String contentType;
 
-    public NetworkResponse(final int responseCode, final byte[] body, final String contentType) {
+    NetworkResponse(final int responseCode, final byte[] body, final String contentType) {
         this.responseCode = responseCode;
         this.body = body;
         this.contentType = contentType;

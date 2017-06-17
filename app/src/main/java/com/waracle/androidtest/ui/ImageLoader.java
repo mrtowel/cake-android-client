@@ -1,11 +1,13 @@
-package com.waracle.androidtest;
+package com.waracle.androidtest.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
+import com.waracle.androidtest.ui.ItemListFragment;
 import com.waracle.androidtest.net.LoadTask;
+import com.waracle.androidtest.net.NetworkResponse;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,8 +1,11 @@
-package com.waracle.androidtest;
+package com.waracle.androidtest.utils;
 
 
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.waracle.androidtest.data.Item;
+import com.waracle.androidtest.net.NetworkResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +23,7 @@ public class NetworkUtils {
     private static final String ENCODING_UTF_8 = "UTF-8";
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    static List<Item> parseResponseData(final NetworkResponse response) {
+    public static List<Item> parseResponseData(final NetworkResponse response) {
         List<Item> items = new ArrayList<>();
         byte[] body = response.getBody();
         if (body == null || body.length == 0) {

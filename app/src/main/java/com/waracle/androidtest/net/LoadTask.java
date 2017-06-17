@@ -4,8 +4,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.waracle.androidtest.NetworkResponse;
-import com.waracle.androidtest.StreamUtils;
+import com.waracle.androidtest.utils.StreamUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

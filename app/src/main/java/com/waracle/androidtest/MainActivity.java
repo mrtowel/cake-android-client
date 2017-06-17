@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.waracle.androidtest.net.HttpCache;
+import com.waracle.androidtest.ui.ItemListFragment;
+
 
 /**
  * Launcher activity.
